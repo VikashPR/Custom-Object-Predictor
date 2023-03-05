@@ -1,0 +1,26 @@
+<annotation>
+	<folder>allimages</folder>
+	<filename>20230304_203639.jpg</filename>
+	<path>/Users/vikashpr/Dev/Python/Custom-Object-Predictor/Tensorflow/workspace/images/allimages/20230304_203639.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>3000</width>
+		<height>4000</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Vikash's Water Bottle</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>827</xmin>
+			<ymin>1030</ymin>
+			<xmax>2267</xmax>
+			<ymax>2565</ymax>
+		</bndbox>
+	</object>
+</annotation>
