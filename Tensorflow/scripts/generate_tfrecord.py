@@ -16,10 +16,6 @@ optional arguments:
                         Path of output .csv file. If none provided, then no file will be written.
 """
 
-from collections import namedtuple
-from object_detection.utils import dataset_util, label_map_util
-from PIL import Image
-import tensorflow.compat.v1 as tf
 import os
 import glob
 import pandas as pd
@@ -28,6 +24,10 @@ import xml.etree.ElementTree as ET
 import argparse
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'    # Suppress TensorFlow logging (1)
+import tensorflow.compat.v1 as tf
+from PIL import Image
+from object_detection.utils import dataset_util, label_map_util
+from collections import namedtuple
 
 # Initiate argument parser
 parser = argparse.ArgumentParser(
@@ -58,6 +58,8 @@ args = parser.parse_args()
 if args.image_dir is None:
     args.image_dir = args.xml_dir
 
+label_map = label_map_util.load_labelmap(args.labels_path)
+label_map_dict = label_map_util.get_label_map_dict(label_map)
 
 
 def xml_to_csv(path):
@@ -96,15 +98,7 @@ def xml_to_csv(path):
 
 
 def class_text_to_int(row_label):
-    if row_label == "Vikash's Mouse":
-        return 1
-    elif row_label == "Vikash's Watch":
-        return 2
-    elif row_label == "Vikash's Water Bottle":
-        return 3
-    else:
-        None
-    # return label_map_dict[row_label]
+    return label_map_dict[row_label]
 
 
 def split(df, group):
@@ -114,7 +108,7 @@ def split(df, group):
 
 
 def create_tf_example(group, path):
-    with tf.io.gfile.GFile(os.path.join(path, '{}'.format(group.filename)), 'rb') as fid:
+    with tf.gfile.GFile(os.path.join(path, '{}'.format(group.filename)), 'rb') as fid:
         encoded_jpg = fid.read()
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = Image.open(encoded_jpg_io)
